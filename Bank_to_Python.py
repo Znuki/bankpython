@@ -25,9 +25,6 @@ class LikelionBank(Data):
 
     def deposit(self):
         print("<   입금 하기   >")
-        # if len(BankData) == 0: ##
-        #     print("<   계좌가 없습니다.   >")
-        #     return 0
         Acc_Data = input("<   계좌 번호를 입력하세요.   >")
         for Data in BankData:
             if Acc_Data == Data.AccNumber:
@@ -41,17 +38,10 @@ class LikelionBank(Data):
                     print("<계좌 금액 : ", Data.Account, "원>")
                     print("<   계좌 입금 완료.   >")
                 return 0
-            # else:
-            #     if(Data == BankData[0]):       ##
-            #         print("<   좆된 입력입니다.   >")
-            #         break
 
 
     def withdraw(self):
         print("<    출금 하기   >")
-        # if len(BankData) == 0: ##
-        #     print("<   계좌가 없습니다.   >")
-        #     return 0
         Acc_Data = input("<   계좌 번호를 입력하세요.   >")
         for Data in BankData:
             if Acc_Data == Data.AccNumber:
@@ -67,16 +57,8 @@ class LikelionBank(Data):
                 else:
                     print("<   잘못된 입력입니다.   >")
                 return 0
-            # else:
-            #     if(Data == BankData[-1]):       ##
-            #         print("<   잘못된 입력입니다.   >")
-            #         break
 
     def AccStatus(self):
-        # if len(BankData) == 0: ##
-        #     print("<   계좌가 없습니다.   >")
-        #     return 0
-        # else:
             print("<   계좌 확인   >")
             for Data in BankData:
                 print("계좌 번호 : ", Data.AccNumber, "\n 이름 : ", Data.name, "\n 금액 : ", Data.Account, " 원")

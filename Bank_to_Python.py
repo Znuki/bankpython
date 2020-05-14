@@ -1,153 +1,120 @@
-import os       # loopy
+from BankData.Data import *
 
-all_id = list()
+BankData = []  # 데이터 리스트 만들어주기
 
-class Account:
-    def __init__(self, userid= "", name = "", balance=0):   
-        if(userid == ""):
-            self.userid = input("계좌번호 = ")
-            self.name = input("고객이름 = ")
-            self.balance = int(input("예금금액 = "))
-        else:
-            self.userid = userid
-            self.name = name
-            self.balance = balance
-            
-    def disp(self):            
-        print("계좌번호:{0}\t이름: {1}\t잔액: {2}".format(self.userid, self.name, self.balance))
-    
-    def info(self):
-        return "{0}:{1}:{2}\n".format(self.userid, self.name, self.balance)
-    
-    # 
-    def getid(self):
-        return self.userid
-    
-    def deposit(self, money):
-        self.balance += money
-        return self.balance
-    
-    def withdraw(self, money):
-        if self.balance < money:
-            return 0
-        else:
-            self.balance -= money
-            return money
-    
-    def getBalance(self):     
-        return self.balance
-            
-try:
-    f = open(file,"r")
+class LikelionBank(Data):
+    def __init__(self):
+        pass # 실행할 거 없을 때
+
+    def CreateAcc(self):
+        print("<   계좌 생성   >")      ##
+        AccNumber = input("<   생성할 계좌를 입력하세요 :  >")
+        for Data in BankData:       ##
+            if AccNumber == Data.AccNumber:     ##
+                print("<   같은 계좌가 존재합니다.   >")
+                return 0
+            if AccNumber < 0:
+                print("<   잘못된 입력입니다.   >")
+                return 0
+        self.AccNumber = AccNumber
+        self.name = input("<   계좌 이름을 입력하세요.  :   >   "   )
+        self.Account = int(input("<   얼마나 입금할까요?  :  >  "))
+        BankData.append(LL)
+        print("<   계좌가 생성되었습니다.   >")
+
+
+    def deposit(self):
+        print("<   입금 하기   >")
+        # if len(BankData) == 0: ##
+        #     print("<   계좌가 없습니다.   >")
+        #     return 0
+        Acc_Data = input("<   계좌 번호를 입력하세요.   >")
+        for Data in BankData:
+            if Acc_Data == Data.AccNumber:
+                print("<   계좌 이름 :   >", Data.name)
+                print("<   계좌 번호 :   >", Data.Account)
+                deposit_Amount = int(input("<   입금하려는 금액을 입력하세요.   >"))
+                if deposit_Amount < 0:
+                    print("<   잘못된 입력입니다.   >")
+                elif deposit_Amount > 0:
+                    Data.Account += deposit_Amount
+                    print("<계좌 금액 : ", Data.Account, "원>")
+                    print("<   계좌 입금 완료.   >")
+                return 0
+            # else:
+            #     if(Data == BankData[0]):       ##
+            #         print("<   좆된 입력입니다.   >")
+            #         break
+
+
+    def withdraw(self):
+        print("<    출금 하기   >")
+        # if len(BankData) == 0: ##
+        #     print("<   계좌가 없습니다.   >")
+        #     return 0
+        Acc_Data = input("<   계좌 번호를 입력하세요.   >")
+        for Data in BankData:
+            if Acc_Data == Data.AccNumber:
+                print("<   계좌 이름 :   >", Data.name)
+                print("<   계좌 번호 :   >", Data.Account)
+                withdraw_Amount = int(input("<   출금하려는 금액을 입력하세요.   >"))
+                if withdraw_Amount < 0:
+                    print("<   잘못된 입력입니다.   >")
+                elif withdraw_Amount <= Data.Account:
+                    Data.Account -= withdraw_Amount
+                    print("<계좌 금액 : ", Data.Account, "원>")
+                    print("<   계좌 출금 완료.   >")
+                else:
+                    print("<   잘못된 입력입니다.   >")
+                return 0
+            # else:
+            #     if(Data == BankData[-1]):       ##
+            #         print("<   잘못된 입력입니다.   >")
+            #         break
+
+    def AccStatus(self):
+        # if len(BankData) == 0: ##
+        #     print("<   계좌가 없습니다.   >")
+        #     return 0
+        # else:
+            print("<   계좌 확인   >")
+            for Data in BankData:
+                print("계좌 번호 : ", Data.AccNumber, "\n 이름 : ", Data.name, "\n 금액 : ", Data.Account, " 원")
+
+
+
+
+if __name__ == "__main__":
+
+    LL = LikelionBank()
     
     while True:
-        line = f.readline()
-        if not line:
+        print()
+        print("======Likelion Bank======\n"
+                "      1. 계좌 생성\n"        
+                "      2. 입금 하기\n"       
+                "      3. 출금 하기\n"        
+                "      4. 계좌 조회\n"       
+                "      5. 업무 종료\n"       
+             "===========================")
+
+        menu = int(float(input(" 어떤 업무를 보시겠습니까? : ")))
+
+        if menu == 1:
+            LL.CreateAcc()
+
+        elif menu == 2:
+            LL.deposit()
+
+        elif menu == 3:
+            LL.withdraw()
+
+        elif menu == 4:
+            LL.AccStatus()
+
+        elif menu == 5:
+            print("<   업무를 종료합니다   >")
             break
 
-        a,b,c = line.split(":")
-        all_id.append(Account(a,b,int(c)))
-    f.close()
-except Exception as ex:
-    print("파일 없습니다")
-    print(ex)
-    
-
-# 화면 초기화                 
-def clr():
-    os.system('cls')
-    
-# 계좌정보를 이용하여 구현될 기능을 담고 있는 클래스 멤버필드 
-# 멤버메서드 : makeAccount() - 계좌개설을 담당할 메서드
-
-class BankManager:
-    # 출금처리를 담당할 메서드
-    def withdraw(self,userid):    
-        for i in all_id:
-            if i.getid() == userid:
-                money = int(input("출금금액 = "))
-                return i.withdraw(money)
-        print("해당하는 계좌가 없습니다.")
-        
-    # 입금처리를 담당할 메서드
-    def deposit(self,userid):     
-        for i in all_id:
-            if i.getid() == userid:
-                money = int(input("입금금액 = "))
-                bal = i.deposit(money)
-                print("잔액은 {0} 입니다.".format(bal))
-                return 0
-        print("일치하는 계좌번호가 존재하지 않습니다")
-    
-    # 계좌번호의 중복여부를 판단할 메서드
-    def new_id(self,user):             
-        for i in all_id:
-            if i.getid() == user.getid():
-                return "입력하신 계좌번호는 이미 존재하는 계좌번호 입니다."
-            
-        all_id.append(user)
-        return "계좌 개설이 완료되었습니다."   
-    
-    # 전체고객의 계좌정보를 출력할 메서드
-    def showAccount(self):             
-        if len(all_id) != 0:
-            for i in range(0,len(all_id)):
-                all_id[i].disp()
         else:
-            print("보유한 계좌가 없습니다.")
-                 
-    # 파일 저장 메서드
-    def save(self):
-        f = open(file,"w")
-        for i in all_id:
-            f.write(i.info())
-            
-        f.close()
-            
-# 사용자와의 인터페이스를 담당할 목적의 클래스
-class BanckingSystem: 
-    def run():
-        while True:
-            print("==== Bank Menu ====")
-            print("1. 계좌개설")
-            print("2. 입금처리")
-            print("3. 출금처리")
-            print("4. 전체조회")
-            print("5. 프로그램 종료")
-            print("===================")
-            cho = input("입력: ")
-            if cho == "1":       # 계좌개설
-                clr()
-                print("=======계좌개설=======")
-                print(BankManager().new_id(Account()))
-                print("===================")
-                
-            elif cho == "2":     # 입금
-                clr()
-                print("========입 금========")
-                userid = input("계좌번호 =")
-                BankManager().deposit(userid)
-                print("===================")
-                 
-                
-            elif cho == "3":    # 출금
-                clr()
-                print("========출 금========")
-                userid = input("계좌번호 =")
-                a = BankManager().withdraw(userid)
-                if a != None:
-                    print("{0}원 출금하셨습니다.".format(a))
-                
-            elif cho == "4":    # 조회
-                clr()
-                print("========조 회========")
-                BankManager().showAccount()
-                print("===================")
-                
-            elif cho == "5":    # 종료
-                BankManager().save()
-                print("종료")
-                break
-
-if __name__ =='__main__':
-    BanckingSystem.run()        # 메인함수 실행
+            print("<   잘못된 입력입니다   >")
